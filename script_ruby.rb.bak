@@ -13,12 +13,13 @@ onStart {
   com_prop = ["Serial Port:", "Baudrate:"]
   standard = ["COM10", "115200"]
   baudlist = ["", "4800|9600|14400|19200|28800|38400|57600|115200"]
+  # Geef het dialoogvenster weer voor vraag naar gegevens.
   serialsettings = UI.inputbox(com_prop, standard, baudlist, "Port série")
  
   if serialsettings != FALSE
   
-    @port = serialsettings[0]
-    @baudrate = serialsettings[1].to_i
+    $port = serialsettings[0]
+    $baudrate = serialsettings[1].to_i
  
     begin
       
@@ -27,7 +28,7 @@ onStart {
       @cmd = "C:\\Users\\"+$user+"\\AppData\\Roaming\\SketchUp\\SketchUp 2017\\SketchUp\\Plugins\\mistert\\gestserial.exe"
       puts @cmd
       
-    rescue Exception
+    rescue Exception -> e
       
       MSketchyPhysics3::SketchyPhysicsClient.physicsReset
       UI.messagebox("Une erreur s'est produite!")
@@ -41,12 +42,12 @@ onStart {
 
 onTick {
   
-  Example::Clipboard.text = @port
+  Example::Clipboard.text = $port
   $test1 = %x["#{@cmd}"]
   $data1 = Example::Clipboard.text 
   $data1 = $data1.to_f
   
-  Example::Clipboard.text = @port
+  Example::Clipboard.text = $port
   #$test2 = %x["D:\\_cours\\ssi_snt_2nde\\SI\\sketchup\\SK 2017\\sources lazarus\\gestserial.exe"]
   $test2 = %x["#{@cmd}"]
   $data2 = Example::Clipboard.text 
